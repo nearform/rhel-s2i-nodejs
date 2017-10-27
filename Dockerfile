@@ -27,7 +27,7 @@ LABEL io.k8s.description="Platform for building and running Node.js applications
       io.openshift.expose-services="8080:http" \
       io.openshift.tags="builder,nodejs,nodejs-$NODE_VERSION" \
       com.redhat.deployments-dir="/opt/app-root/src" \
-      maintainer="Lance Ball <lball@redhat.com>"
+      maintainer="Paweł Lasek <pawel.lasek@nearform.com>"
 
 COPY ./s2i/ $STI_SCRIPTS_PATH
 COPY ./contrib/ /opt/app-root
