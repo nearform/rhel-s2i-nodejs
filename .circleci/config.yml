@@ -1,0 +1,52 @@
+version: 2
+jobs:
+  build:
+    docker:
+        - image: elexy/circleci_s2i:0.0.2
+    resource_class: xlarge
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Configure
+          command: |
+            # VERSION="8.7.0"
+            # V8="6.1.534.42"
+            # NPM="5.4.2"
+            # TAG="8.7.0"
+
+            if [[ -z $VERSION || -z $V8 || -z $NPM || -z $TAG ]]; then
+              echo 'one or more variables are undefined, aborting build.'
+              exit 1
+            fi
+            if [[ -z $LTS_TAG ]]; then
+              ./configure --version $VERSION \
+                          --v8 $V8 \
+                          --npm $NPM \
+                          --tag $TAG
+            else
+              ./configure --version $VERSION \
+                          --v8 $V8 \
+                          --npm $NPM \
+                          --tag $TAG \
+                          --lts-tag $LTS_TAG
+            fi
+      - run:
+          name: Build
+          command: make build
+      - run:
+          name: Docker squash
+          command: make squash
+      - run:
+          name: Test
+          command: make test
+      - run:
+          name: Tag LTS if this is an LTS release
+          command: make tag
+      - run:
+          name: Publish
+          command: |
+            MAJOR_VERSION="${VERSION%%.*}"
+            export VERSION_X=$(echo "$MAJOR_VERSION.x")
+
+            make publish
