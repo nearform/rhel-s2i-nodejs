@@ -1,5 +1,5 @@
-FROM=openshift/base-centos7
-IMAGE_NAME=bucharestgold/centos7-s2i-nodejs
+FROM=registry.access.redhat.com/rhel7
+IMAGE_NAME=nearform/redhat7-s2i-nodejs
 
 # These values are changed in each version branch
 # This is the only place they need to be changed
