@@ -24,6 +24,7 @@ jobs:
                 export V8_VERSION=$V8
                 export NPM_VERSION=$NPM
                 export IMAGE_TAG=$TAG
+              fi
             fi
             if [[ -z $LTS_TAG ]]; then
               ./configure --version $NODE_VERSION \
