@@ -14,10 +14,16 @@ jobs:
             # V8="6.1.534.42"
             # NPM="5.4.2"
             # TAG="8.7.0"
-
-            if [[ -z $VERSION || -z $V8 || -z $NPM || -z $TAG ]]; then
-              echo 'one or more variables are undefined, aborting build.'
-              exit 1
+            
+            if [[ -z $NODE_VERSION || -z $V8_VERSION || -z $NPM_VERSION || -z $IMAGE_TAG ]]; then
+              if [[ -z $VERSION || -z $V8 || -z $NPM || -z $TAG ]]; then
+                echo 'one or more variables are undefined, aborting build.'
+                exit 1
+              else
+                export NODE_VERSION=$VERSION
+                export V8_VERSION=$V8
+                export NPM_VERSION=$NPM
+                export IMAGE_TAG=$TAG
             fi
             if [[ -z $LTS_TAG ]]; then
               ./configure --version $NODE_VERSION \
