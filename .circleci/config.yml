@@ -20,15 +20,15 @@ jobs:
               exit 1
             fi
             if [[ -z $LTS_TAG ]]; then
-              ./configure --version $VERSION \
-                          --v8 $V8 \
-                          --npm $NPM \
-                          --tag $TAG
+              ./configure --version $NODE_VERSION \
+                          --v8 $V8_VERSION \
+                          --npm $NPM_VERSION \
+                          --tag $IMAGE_TAG
             else
-              ./configure --version $VERSION \
-                          --v8 $V8 \
-                          --npm $NPM \
-                          --tag $TAG \
+              ./configure --version $NODE_VERSION \
+                          --v8 $V8_VERSION \
+                          --npm $NPM_VERSION \
+                          --tag $IMAGE_TAG \
                           --lts-tag $LTS_TAG
             fi
       - run:
@@ -46,7 +46,7 @@ jobs:
       - run:
           name: Publish
           command: |
-            MAJOR_VERSION="${VERSION%%.*}"
+            MAJOR_VERSION="${NODE_VERSION%%.*}"
             export VERSION_X=$(echo "$MAJOR_VERSION.x")
 
             make publish
