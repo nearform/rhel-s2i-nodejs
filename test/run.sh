@@ -115,8 +115,8 @@ test_connection() {
   local attempt=1
   local result=1
   while [ $attempt -le $max_attempts ]; do
-    echo "Sending GET request to http://localhost:${test_port}/"
-    response_code=$(curl -s -w %{http_code} -o /dev/null http://localhost:${test_port}/)
+    echo "Sending GET request to http://${DOCKER_HOST}:${test_port}/"
+    response_code=$(curl -s -w %{http_code} -o /dev/null http://${DOCKER_HOST}:${test_port}/)
     status=$?
     if [ $status -eq 0 ]; then
       if [ $response_code -eq 200 ]; then
