@@ -8,6 +8,7 @@
 #
 BUILDER=${BUILDER}
 NODE_VERSION=${NODE_VERSION}
+DOCKER_HOST="$(echo ${DOCKER_HOST} | cut -d':' -f 1)" || "localhost"
 
 APP_IMAGE="$(echo ${BUILDER} | cut -f 1 -d':')-testapp"
 
