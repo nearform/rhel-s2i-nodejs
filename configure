@@ -51,7 +51,7 @@ with io.FileIO("versions.mk", "w") as file:
     file.write("IMAGE_TAG="+options.tag+"\n")
     if hasattr(options, 'lts'):
         file.write("LTS_TAG="+options.lts+"\n")
-    file.write("IMAGE_NAME=nearform/centos7-s2i-nodejs\n")
+    file.write("IMAGE_NAME=nearform/rhel7-s2i-nodejs\n")
     file.write("NPM_VERSION="+options.npm+"\n")
 
 with io.FileIO("versions.mk", "r") as file:
