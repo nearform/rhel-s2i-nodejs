@@ -1,4 +1,4 @@
-FROM=registry.access.redhat.com/rhel7
+FROM=registry.access.redhat.com/rhscl/s2i-base-rhel7
 IMAGE_NAME=nearform/redhat7-s2i-nodejs
 
 # These values are changed in each version branch
