@@ -20,11 +20,11 @@ build:
 	-t $(TARGET) .
 
 .PHONY: squash
-squash: 
+squash:
 	docker-squash -f $(FROM) $(TARGET) -t $(TARGET)
 
 .PHONY: test
-test: build squash
+test:
 	 BUILDER=$(TARGET) NODE_VERSION=$(NODE_VERSION) ./test/run.sh
 
 .PHONY: clean
@@ -36,7 +36,7 @@ tag:
 	if [ ! -z $(LTS_TAG) ]; then docker tag $(TARGET) $(IMAGE_NAME):$(LTS_TAG); fi
 
 .PHONY: publish
-publish: all
+publish:
 	docker login --username $(DOCKER_USER) --password $(DOCKER_PASS)
 	docker push $(TARGET)
 	if [ ! -z $(LTS_TAG) ]; then docker push $(IMAGE_NAME):$(LTS_TAG); fi
