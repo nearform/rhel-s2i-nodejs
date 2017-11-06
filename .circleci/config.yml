@@ -13,7 +13,7 @@ jobs:
             export VERSION="8.9.0"
             export V8="6.1.534.42"
             export NPM="5.4.2"
-            export TAG="8.7.0"
+            export TAG="8.9.0"
 
             if [[ -z $NODE_VERSION || -z $V8_VERSION || -z $NPM_VERSION || -z $IMAGE_TAG ]]; then
               if [[ -z $VERSION || -z $V8 || -z $NPM || -z $TAG ]]; then
