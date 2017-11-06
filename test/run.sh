@@ -9,9 +9,9 @@
 BUILDER=${BUILDER}
 NODE_VERSION=${NODE_VERSION}
 # DOCKER_IP="$(echo ${DOCKER_HOST} | cut -d':' -f 2 | cut -c 3-)" || "localhost"
-APP_CONTAINER_NAME="testcontainer"
 
 APP_IMAGE="$(echo ${BUILDER} | cut -f 1 -d':')-testapp"
+APP_CONTAINER_NAME="testcontainer"
 
 test_dir=`dirname ${BASH_SOURCE[0]}`
 image_dir="${test_dir}/.."
@@ -59,7 +59,6 @@ prepare() {
 
 run_test_application() {
   echo "Starting test application ${APP_IMAGE}..."
-  docker run --rm --cidfile=${cid_file} -p ${test_port}:${test_port} ${APP_IMAGE}
   dockerid=$(docker run --rm --name ${APP_CONTAINER_NAME} --cidfile=${cid_file} -p ${test_port}:${test_port} ${APP_IMAGE})
 }
 
