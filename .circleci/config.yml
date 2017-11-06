@@ -55,5 +55,6 @@ jobs:
           command: |
             MAJOR_VERSION="${NODE_VERSION%%.*}"
             export VERSION_X=$(echo "$MAJOR_VERSION.x")
+            echo VERSION_X
 
             make publish
