@@ -8,9 +8,7 @@
 #
 BUILDER=${BUILDER}
 NODE_VERSION=${NODE_VERSION}
-DOCKER_HOST="$(echo ${DOCKER_HOST} | cut -d':' -f 1)" || "localhost"
-
-docker images
+DOCKER_IP="$(echo ${DOCKER_HOST} | cut -d':' -f 1)" || "localhost"
 
 APP_IMAGE="$(echo ${BUILDER} | cut -f 1 -d':')-testapp"
 
@@ -118,8 +116,8 @@ test_connection() {
   local attempt=1
   local result=1
   while [ $attempt -le $max_attempts ]; do
-    echo "Sending GET request to http://${DOCKER_HOST}:${test_port}/"
-    response_code=$(curl -s -w %{http_code} -o /dev/null http://${DOCKER_HOST}:${test_port}/)
+    echo "Sending GET request to http://${DOCKER_IP}:${test_port}/"
+    response_code=$(curl -s -w %{http_code} -o /dev/null http://${DOCKER_IP}:${test_port}/)
     status=$?
     if [ $status -eq 0 ]; then
       if [ $response_code -eq 200 ]; then
