@@ -10,6 +10,8 @@ BUILDER=${BUILDER}
 NODE_VERSION=${NODE_VERSION}
 DOCKER_HOST="$(echo ${DOCKER_HOST} | cut -d':' -f 1)" || "localhost"
 
+docker images
+
 APP_IMAGE="$(echo ${BUILDER} | cut -f 1 -d':')-testapp"
 
 test_dir=`dirname ${BASH_SOURCE[0]}`
