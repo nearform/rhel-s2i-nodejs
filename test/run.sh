@@ -8,7 +8,7 @@
 #
 BUILDER=${BUILDER}
 NODE_VERSION=${NODE_VERSION}
-DOCKER_IP="$(echo ${DOCKER_HOST} | cut -d':' -f 1)" || "localhost"
+DOCKER_IP="$(echo ${DOCKER_HOST} | cut -d':' -f 0)" || "localhost"
 
 APP_IMAGE="$(echo ${BUILDER} | cut -f 1 -d':')-testapp"
 
