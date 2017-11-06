@@ -37,7 +37,7 @@ tag:
 
 .PHONY: publish
 publish:
-	echo "$DOCKER_PASS" | docker login --username $(DOCKER_USER) --password-stdin
+	echo $(DOCKER_PASS) | docker login --username $(DOCKER_USER) --password-stdin
 	# docker login --username $(DOCKER_USER) --password $(DOCKER_PASS)
 	docker push $(TARGET)
 	if [ ! -z $(LTS_TAG) ]; then docker push $(IMAGE_NAME):$(LTS_TAG); fi
