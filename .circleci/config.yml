@@ -22,18 +22,12 @@ jobs:
               fi
             fi
 
-            if [[ -z $LTS_TAG ]]; then
-              ./configure --version $VERSION \
-                          --v8 $V8 \
-                          --npm $NPM \
-                          --tag $TAG
-            else
-              ./configure --version $VERSION \
-                          --v8 $V8 \
-                          --npm $NPM \
-                          --tag $TAG \
-                          --lts-tag $LTS_TAG
-            fi
+            ./configure --version "$VERSION" \
+                        --v8 "$V8" \
+                        --npm "$NPM" \
+                        --tag "$TAG" \
+                        --lts "$LTS" \
+                        --latest "$LATEST"
       - run:
           name: Build
           command: make build
@@ -48,9 +42,4 @@ jobs:
           command: make tag
       - run:
           name: Publish
-          command: |
-            MAJOR_VERSION="${VERSION%%.*}"
-            export VERSION_X=$(echo "$MAJOR_VERSION.x")
-            echo $VERSION_X
-
-            make publish
+          command: make publish
