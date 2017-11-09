@@ -27,7 +27,8 @@ jobs:
                         --npm "$NPM" \
                         --tag "$TAG" \
                         --lts "$LTS" \
-                        --latest "$LATEST"
+                        --major "$MAJOR" \
+                        --minor "$MINOR"
       - run:
           name: Build
           command: make build

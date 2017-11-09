@@ -39,9 +39,13 @@ tag:
 publish:
 	echo $(DOCKER_PASS) | docker login --username $(DOCKER_USER) --password-stdin
 	docker push $(TARGET)
-ifdef LATEST_TAG
-	docker tag $(TARGET) $(IMAGE_NAME):$(LATEST_TAG)
-	docker push $(IMAGE_NAME):$(LATEST_TAG)
+ifdef MAJOR_TAG
+	docker tag $(TARGET) $(IMAGE_NAME):$(MAJOR_TAG)
+	docker push $(IMAGE_NAME):$(MAJOR_TAG)
+endif
+ifdef MINOR_TAG
+	docker tag $(TARGET) $(IMAGE_NAME):$(MINOR_TAG)
+	docker push $(IMAGE_NAME):$(MINOR_TAG)
 endif
 ifdef LTS_TAG
 	docker tag $(TARGET) $(IMAGE_NAME):$(LTS_TAG)
