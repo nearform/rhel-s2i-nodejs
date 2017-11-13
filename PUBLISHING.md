@@ -1,4 +1,4 @@
-# Publishing the `centos7-s2i-nodejs` images to Docker Hub
+# Publishing the `rhel7-s2i-nodejs` images to Docker Hub
 
 When there is a new release of Node.js, these images need to be updated.
 Follow these steps to publish. In all cases, you should have `DOCKER_USER`
@@ -28,7 +28,7 @@ Then use these tools to update the relevant files. Follow the commands outlined 
 
 ```
 node-metadata -i 4 5 6 7 8 | jq '.' > releases.json # Write release metadata to disk
-node-image-stream -f releases.json -i bucharestgold/centos7-s2i-nodejs > image-streams.centos7.json # write image stream data
+node-image-stream -f releases.json -i nearform/rhel7-s2i-nodejs > image-streams.rhel7.json # write image stream data
 git add releases.json image-streams.centos7.json
 git commit -a -m "(chore): update node versions"
 ```
