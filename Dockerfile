@@ -33,6 +33,7 @@ LABEL io.k8s.description="Platform for building and running Node.js applications
     summary="Rhel7 based s2i image for NodeJS applications" \
     description="Rhel7 based s2i image for NodeJS applications"
 
+COPY ./src/ /src
 COPY ./s2i/ $STI_SCRIPTS_PATH
 COPY ./contrib/ /opt/app-root
 
