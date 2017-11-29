@@ -14,7 +14,6 @@ all: build squash test
 .PHONY: build
 build:
 	docker build \
-	--label "build"="123"
 	--build-arg NODE_VERSION=$(NODE_VERSION) \
 	--build-arg NPM_VERSION=$(NPM_VERSION) \
 	--build-arg V8_VERSION=$(V8_VERSION) \
