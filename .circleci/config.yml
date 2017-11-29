@@ -46,6 +46,6 @@ jobs:
           command: |
             make publish
             echo ${RH_DOCKER_PASS} | docker login -u unused registry.rhc4tp.openshift.com:443 --password-stdin
-            RH_TARGET="registry.rhc4tp.openshift.com:443/p936591153adf2db17145e97afc3511f2549b5dfa3/redhat7-s2i-nodejs:$(TAG)"
+            RH_TARGET="registry.rhc4tp.openshift.com:443/p936591153adf2db17145e97afc3511f2549b5dfa3/redhat7-s2i-nodejs:${TAG}"
             docker tag $(TARGET) $(RH_TARGET)
             docker push $(RH_TARGET)
