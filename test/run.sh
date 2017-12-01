@@ -8,8 +8,10 @@
 #
 BUILDER=${BUILDER}
 NODE_VERSION=${NODE_VERSION}
+# DOCKER_IP="$(echo ${DOCKER_HOST} | cut -d':' -f 2 | cut -c 3-)" || "localhost"
 
 APP_IMAGE="$(echo ${BUILDER} | cut -f 1 -d':')-testapp"
+APP_CONTAINER_NAME="testcontainer"
 
 test_dir=`dirname ${BASH_SOURCE[0]}`
 image_dir="${test_dir}/.."
@@ -57,7 +59,7 @@ prepare() {
 
 run_test_application() {
   echo "Starting test application ${APP_IMAGE}..."
-  docker run --rm --cidfile=${cid_file} -p ${test_port}:${test_port} ${APP_IMAGE}
+  dockerid=$(docker run --rm --name ${APP_CONTAINER_NAME} --cidfile=${cid_file} -p ${test_port}:${test_port} ${APP_IMAGE})
 }
 
 cleanup() {
@@ -116,7 +118,9 @@ test_connection() {
   local result=1
   while [ $attempt -le $max_attempts ]; do
     echo "Sending GET request to http://localhost:${test_port}/"
-    response_code=$(curl -s -w %{http_code} -o /dev/null http://localhost:${test_port}/)
+    response_code=$(docker exec ${APP_CONTAINER_NAME} node -e "require('http'); http.get('http://localhost:8080', (r) => { console.log(r.statusCode) })")
+    # echo "Sending GET request to http://${DOCKER_IP}:${test_port}/"
+    # response_code=$(curl -s -w %{http_code} -o /dev/null http://${DOCKER_IP}:${test_port}/)
     status=$?
     if [ $status -eq 0 ]; then
       if [ $response_code -eq 200 ]; then

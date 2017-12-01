@@ -1,5 +1,5 @@
-FROM=openshift/base-centos7
-IMAGE_NAME=bucharestgold/centos7-s2i-nodejs
+FROM=registry.access.redhat.com/rhscl/s2i-base-rhel7
+IMAGE_NAME=nearform/redhat7-s2i-nodejs
 
 # These values are changed in each version branch
 # This is the only place they need to be changed
@@ -7,12 +7,14 @@ IMAGE_NAME=bucharestgold/centos7-s2i-nodejs
 include versions.mk
 
 TARGET=$(IMAGE_NAME):$(IMAGE_TAG)
+ARCHIVE=sources-$(subst "/","-",$(TARGET)).tgz
 
 .PHONY: all
 all: build squash test
 
 .PHONY: build
 build:
+	./contrib/etc/get_node_source.sh "${NODE_VERSION}" ./src/
 	docker build \
 	--build-arg NODE_VERSION=$(NODE_VERSION) \
 	--build-arg NPM_VERSION=$(NPM_VERSION) \
@@ -20,11 +22,11 @@ build:
 	-t $(TARGET) .
 
 .PHONY: squash
-squash: 
+squash:
 	docker-squash -f $(FROM) $(TARGET) -t $(TARGET)
 
 .PHONY: test
-test: build squash
+test:
 	 BUILDER=$(TARGET) NODE_VERSION=$(NODE_VERSION) ./test/run.sh
 
 .PHONY: clean
@@ -36,7 +38,35 @@ tag:
 	if [ ! -z $(LTS_TAG) ]; then docker tag $(TARGET) $(IMAGE_NAME):$(LTS_TAG); fi
 
 .PHONY: publish
-publish: all
-	docker login --username $(DOCKER_USER) --password $(DOCKER_PASS)
+publish:
+	echo $(DOCKER_PASS) | docker login --username $(DOCKER_USER) --password-stdin
 	docker push $(TARGET)
-	if [ ! -z $(LTS_TAG) ]; then docker push $(IMAGE_NAME):$(LTS_TAG); fi
+ifdef MAJOR_TAG
+	docker tag $(TARGET) $(IMAGE_NAME):$(MAJOR_TAG)
+	docker push $(IMAGE_NAME):$(MAJOR_TAG)
+endif
+ifdef MINOR_TAG
+	docker tag $(TARGET) $(IMAGE_NAME):$(MINOR_TAG)
+	docker push $(IMAGE_NAME):$(MINOR_TAG)
+endif
+ifdef LTS_TAG
+	docker tag $(TARGET) $(IMAGE_NAME):$(LTS_TAG)
+	docker push $(IMAGE_NAME):$(LTS_TAG)
+endif
+
+.PHONY: archive
+archive:
+	mkdir -p dist
+	git archive --prefix=build-tools/ --format=tar HEAD | gzip >dist/build-tools.tgz
+	cp -v versions.mk dist/versions.mk
+	git rev-parse HEAD >dist/build-tools.revision
+	cp -v src/* dist/
+	shasum dist/* >checksum
+	cp -v checksum dist/dist.checksum
+	tar czvf $(ARCHIVE) dist/*
+
+
+.PHONY: upload
+upload:
+	echo "Attempting Upload of sources to S3 bucket $(S3BUCKET)"
+	s3cmd put $(ARCHIVE) "$(S3BUCKET)"

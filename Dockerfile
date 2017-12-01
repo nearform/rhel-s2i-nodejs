@@ -1,4 +1,4 @@
-FROM openshift/base-centos7
+FROM registry.access.redhat.com/rhscl/s2i-base-rhel7
 # This image provides a Node.JS environment you can use to run your Node.JS applications.
 
 EXPOSE 8080
@@ -23,17 +23,29 @@ ENV NPM_RUN=start \
     DEV_MODE=false
 
 LABEL io.k8s.description="Platform for building and running Node.js applications" \
-      io.k8s.display-name="Node.js $NODE_VERSION" \
-      io.openshift.expose-services="8080:http" \
-      io.openshift.tags="builder,nodejs,nodejs-$NODE_VERSION" \
-      com.redhat.deployments-dir="/opt/app-root/src" \
-      maintainer="Lance Ball <lball@redhat.com>"
+    io.k8s.display-name="Node.js $NODE_VERSION" \
+    io.openshift.expose-services="8080:http" \
+    io.openshift.tags="builder,nodejs,nodejs-$NODE_VERSION" \
+    com.redhat.deployments-dir="/opt/app-root/src" \
+    maintainer="nearForm Developer Support <devsupport@nearform.com>" \
+    name="rhel7-s2i-nodejs" \
+    vendor="nearForm Ltd" \
+    summary="Rhel7 based s2i image for NodeJS applications" \
+    description="Rhel7 based s2i image for NodeJS applications"
 
+COPY ./src/ /src
 COPY ./s2i/ $STI_SCRIPTS_PATH
 COPY ./contrib/ /opt/app-root
 
-RUN /opt/app-root/etc/install_node.sh
-  
+### Atomic Help File - Write in Markdown, it will be converted to man format at build time.
+### https://github.com/projectatomic/container-best-practices/blob/master/creating/help.adoc
+COPY help/help.md /tmp/
+
+### add licenses to this directory
+COPY licenses /licenses
+
+RUN /opt/app-root/etc/install_node_source.sh
+
 USER 1001
 
 # Set the default CMD to print the usage

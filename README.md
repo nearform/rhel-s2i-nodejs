@@ -1,18 +1,17 @@
 # OpenShift Builder Images for Node.js Applications
 
-[![Build Status](https://travis-ci.org/bucharest-gold/centos7-s2i-nodejs.svg?branch=master)](https://travis-ci.org/bucharest-gold/centos7-s2i-nodejs)
-[![](https://images.microbadger.com/badges/image/bucharestgold/centos7-s2i-nodejs.svg)](https://microbadger.com/images/bucharestgold/centos7-s2i-nodejs "Get your own image badge on microbadger.com")
+[![CircleCI](https://circleci.com/gh/nearform/rhel-s2i-nodejs/tree/simple-rhel-base.svg?style=svg)](https://circleci.com/gh/nearform/rhel-s2i-nodejs/tree/simple-rhel-base)
 
-This repository contains sources for an [s2i](https://github.com/openshift/source-to-image) builder image, based on CentOS7 and Node.js releases from nodejs.org.
+This repository contains sources for an [s2i](https://github.com/openshift/source-to-image) builder image, based on RHEL7 and Node.js releases from nodejs.org.
 
-[![docker hub stats](http://dockeri.co/image/bucharestgold/centos7-s2i-nodejs)](https://hub.docker.com/r/bucharestgold/centos7-s2i-nodejs/)
+[![docker hub stats](http://dockeri.co/image/nearform/rhel7-s2i-nodejs)](https://hub.docker.com/r/bucharestgold/rhel7-s2i-nodejs/)
 
 For more information about using these images with OpenShift, please see the
 official [OpenShift Documentation](https://docs.openshift.org/latest/using_images/s2i_images/nodejs.html).
 
 ## Versions
 
-Node.js versions [currently provided](https://hub.docker.com/r/bucharestgold/centos7-s2i-nodejs/tags/):
+Node.js versions [currently provided](https://hub.docker.com/r/nearform/rhel7-s2i-nodejs/tags/):
 
 <!-- versions.start -->
 * **`8.4.0`**: (8.x, latest)
@@ -32,21 +31,21 @@ and can be run either by OpenShift Origin or by Docker.
 The [`oc` command-line tool](https://github.com/openshift/origin/releases) can be used to start a build, layering your desired nodejs `REPO_URL` sources into a centos7 image with your selected `RELEASE` of Node.js via the following command format:
 
 ```
-oc new-app bucharestgold/centos7-s2i-nodejs:RELEASE~REPO_URL
+oc new-app nearform/rhel7-s2i-nodejs:RELEASE~REPO_URL
 ```
 
 For example, you can run a build (including `npm install` steps), using  [`s2i-nodejs`](http://github.com/bucharest-gold/s2i-nodejs) example repo, and the `latest` release of
 Node.js with:
 
 ```
-oc new-app bucharestgold/centos7-s2i-nodejs:latest~https://github.com/bucharest-gold/s2i-nodejs
+oc new-app nearform/rhel7-s2i-nodejs:latest~https://github.com/bucharest-gold/s2i-nodejs
 ```
 
 <!--
 Or, to run the latest `lts-6` release:
 
 ```
-oc new-app bucharestgold/centos7-s2i-nodejs:lts-6~https://github.com/bucharest-gold/s2i-nodejs
+oc new-app nearform/rhel7-s2i-nodejs:lts-6~https://github.com/bucharest-gold/s2i-nodejs
 ```
 
 You can try using any of the available tagged Node.js releases, and your own repo sources - as long as your application source will init correctly with `npm start`, and listen on port 8080.
@@ -86,12 +85,12 @@ If you have deployed the container to OpenShift, you can use [oc rsync](https://
 
 ## Builds
 
-The [Source2Image cli tools](https://github.com/openshift/source-to-image/releases) are available as a standalone project, allowing you to [run builds outside of OpenShift](https://github.com/bucharest-gold/origin-s2i-nodejs/blob/master/nodejs.org/README.md#usage).
+The [Source2Image cli tools](https://github.com/openshift/source-to-image/releases) are available as a standalone project, allowing you to run builds outside of OpenShift.
 
 This example will produce a new docker image named `webapp`:
 
 ```
-s2i build https://github.com/bucharest-gold/s2i-nodejs bucharestgold/centos7-s2i-nodejs:current webapp
+s2i build https://github.com/bucharest-gold/s2i-nodejs nearform/rhel7-s2i-nodejs:current webapp
 ```
 
 ## Installation
@@ -102,13 +101,13 @@ There are several ways to make this base image and the full list of tagged Node.
 Those without admin privileges can install the latest Node.js releases within their project context with:
 
 ```
-oc create -f https://raw.githubusercontent.com/bucharest-gold/origin-s2i-nodejs/master/image-streams.json
+oc create -f https://raw.githubusercontent.com/nearform/rhel7-s2i-nodejs/master/image-streams.json
 ```
 
 To ensure that each of the latest Node.js release tags are available and displayed correctly in the web UI, try upgrading / reinstalling the image stream:
 
 ```
-oc delete is/centos7-s2i-nodejs ; oc create -f https://raw.githubusercontent.com/bucharest-gold/origin-s2i-nodejs/master/image-streams.json
+oc delete is/rhel7-s2i-nodejs ; oc create -f https://raw.githubusercontent.com/nearform/rhel7-s2i-nodejs/master/image-streams.json
 ```
 
 If you've (automatically) imported this image using the [`oc new-app` example command](#usage), then you may need to clear the auto-imported image stream reference and re-install it.
@@ -118,13 +117,13 @@ If you've (automatically) imported this image using the [`oc new-app` example co
 Administrators can make these Node.js releases available globally (visible in all projects, by all users) by adding them to the `openshift` namespace:
 
 ```
-oc create -n openshift -f https://raw.githubusercontent.com/bucharest-gold/origin-s2i-nodejs/master/image-streams.json
+oc create -n openshift -f https://raw.githubusercontent.com/nearform/rhel7-s2i-nodejs/master/image-streams.json
 ```
 
 To replace [the default SCL-packaged `openshift/nodejs` image](https://hub.docker.com/r/openshift/nodejs-010-centos7/) (admin access required), run:
 
 ```
-oc delete is/nodejs -n openshift ; oc create -n openshift -f https://raw.githubusercontent.com/bucharest-gold/origin-s2i-nodejs/master/centos7-s2i-nodejs.json
+oc delete is/nodejs -n openshift ; oc create -n openshift -f https://raw.githubusercontent.com/nearform/rhel7-s2i-nodejs/master/centos7-s2i-nodejs.json
 ```
 
 ## Building your own Builder images
@@ -132,8 +131,8 @@ oc delete is/nodejs -n openshift ; oc create -n openshift -f https://raw.githubu
 Clone a copy of this repo to fetch the build sources:
 
 ```
-git clone https://github.com/bucharest-gold/origin-s2i-nodejs.git
-cd origin-s2i-nodejs
+git clone https://github.com/nearform/rhel7-s2i-nodejs.git
+cd rhel7-s2i-nodejs
 ```
 
 ### Requirements - docker-squash
