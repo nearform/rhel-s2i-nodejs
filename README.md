@@ -17,8 +17,6 @@ Node.js versions [currently provided](https://hub.docker.com/r/nearform/rhel7-s2
 * **`8.4.0`**: (8.x, latest)
 * **`7.10.1`**: (7.x)
 * **`6.11.2`**: (6.x, Boron)
-* **`5.12.0`**: (5.x)
-* **`4.8.4`**: (4.x, Argon)
 <!-- versions.end -->
 
 ## Usage
