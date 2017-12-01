@@ -13,6 +13,7 @@ all: build squash test
 
 .PHONY: build
 build:
+	./contrib/etc/get_node_source.sh "${NODE_VERSION}" ./src/
 	docker build \
 	--build-arg NODE_VERSION=$(NODE_VERSION) \
 	--build-arg NPM_VERSION=$(NPM_VERSION) \
@@ -51,3 +52,14 @@ ifdef LTS_TAG
 	docker tag $(TARGET) $(IMAGE_NAME):$(LTS_TAG)
 	docker push $(IMAGE_NAME):$(LTS_TAG)
 endif
+
+.PHONY: archive
+archive:
+	mkdir -p dist
+	git archive --prefix=build-tools/ --format=tar HEAD | gzip >dist/build-tools.tgz
+	cp -v versions.mk dist/versions.mk
+	git rev-parse HEAD >dist/build-tools.revision
+	cp -v src/* dist/
+	shasum dist/* >checksum
+	cp -v checksum dist/dist.checksum
+	tar czvf "sources-${TARGET//\//-}.tgz" dist/*
