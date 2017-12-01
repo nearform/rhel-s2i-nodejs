@@ -1,4 +1,4 @@
-## getting started
+## nearForm Node.js 8.x RHEL image - Getting Started
 
 This guide is designed to quickly help you get a sample NodeJS application running using s2i and this rhrel7-s2i-nodejs image
 
