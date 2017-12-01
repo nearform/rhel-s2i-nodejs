@@ -7,6 +7,7 @@ IMAGE_NAME=nearform/redhat7-s2i-nodejs
 include versions.mk
 
 TARGET=$(IMAGE_NAME):$(IMAGE_TAG)
+ARCHIVE=sources-$(subst "/","-",$(TARGET)).tgz
 
 .PHONY: all
 all: build squash test
@@ -62,4 +63,4 @@ archive:
 	cp -v src/* dist/
 	shasum dist/* >checksum
 	cp -v checksum dist/dist.checksum
-	tar czvf "sources-${TARGET//\//-}.tgz" dist/*
+	tar czvf $(ARCHIVE) dist/*
