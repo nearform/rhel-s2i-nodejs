@@ -64,3 +64,9 @@ archive:
 	shasum dist/* >checksum
 	cp -v checksum dist/dist.checksum
 	tar czvf $(ARCHIVE) dist/*
+
+
+.PHONY: upload
+upload:
+	echo "Attempting Upload of sources to S3 bucket $(S3BUCKET)"
+	s3cmd put $(ARCHIVE) "$(S3BUCKET)"
