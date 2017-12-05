@@ -53,7 +53,11 @@ jobs:
           name: Archive
           command: |
             make archive
+      - run:
+          name: Upload
+          command: |
             sudo pip install --no-deps s3cmd
             echo "access_key = $AWS_ACCESS_KEY_ID" >> ~/.s3cfg
             echo "secret_key = $AWS_SECRET_ACCESS_KEY" >> ~/.s3cfg
+            make upload
             
