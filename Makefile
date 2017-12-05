@@ -1,13 +1,17 @@
 FROM=registry.access.redhat.com/rhscl/s2i-base-rhel7
 IMAGE_NAME=nearform/redhat7-s2i-nodejs
 
+SLASH := /
+DASH := -
+
+
 # These values are changed in each version branch
 # This is the only place they need to be changed
 # other than the README.md file.
 include versions.mk
 
 TARGET=$(IMAGE_NAME):$(IMAGE_TAG)
-ARCHIVE=sources-$(subst "/","-",$(TARGET)).tgz
+ARCHIVE=sources-$(subst $(SLASH),$(DASH),$(TARGET)).tgz
 
 .PHONY: all
 all: build squash test
@@ -41,6 +45,11 @@ tag:
 publish:
 	echo $(DOCKER_PASS) | docker login --username $(DOCKER_USER) --password-stdin
 	docker push $(TARGET)
+ifdef DEBUG_BUILD
+undefine MAJOR_TAG
+undefine MINOR_TAG
+undefine LTS_TAG
+endif
 ifdef MAJOR_TAG
 	docker tag $(TARGET) $(IMAGE_NAME):$(MAJOR_TAG)
 	docker push $(IMAGE_NAME):$(MAJOR_TAG)
