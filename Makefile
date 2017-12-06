@@ -68,6 +68,7 @@ ifndef DEBUG_BUILD
 	RH_TARGET="registry.rhc4tp.openshift.com:443/$(RH_PID)/redhat7-s2i-nodejs:$(TAG)"
 	docker tag nearform/rhel7-s2i-nodejs:$(TAG) $(RH_TARGET)
 	IMAGE_DIGEST=$($(docker push $(RH_TARGET)) | sed -e 's/.*\(sha.*\)\s.*/\1/g')
+	echo "publishing the new image in the catalog"
 	curl -X POST \
 		-H "Content-Type: application/json" \
 		-d '{"pid":"$(RH_PID)","docker_image_digest":"$(IMAGE_DIGEST)", "secret":"$(RH_SECRET"}' https://connect.redhat.com/api/container/publish
