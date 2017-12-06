@@ -3,15 +3,16 @@ IMAGE_NAME=nearform/redhat7-s2i-nodejs
 
 SLASH := /
 DASH := -
-
-
+DOT := .
+COLON := :
 # These values are changed in each version branch
 # This is the only place they need to be changed
 # other than the README.md file.
 include versions.mk
 
 TARGET=$(IMAGE_NAME):$(IMAGE_TAG)
-ARCHIVE=sources-$(subst $(SLASH),$(DASH),$(TARGET)).tgz
+ARCHIVE_NAME=$(IMAGE_NAME)-$(IMAGE_TAG)
+ARCHIVE=sources-$(subst $(SLASH),$(DASH),$(ARCHIVE_NAME)).tgz
 
 .PHONY: all
 all: build squash test
