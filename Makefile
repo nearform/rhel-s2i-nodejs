@@ -1,8 +1,8 @@
 FROM=registry.access.redhat.com/rhscl/s2i-base-rhel7
 IMAGE_NAME=nearform/redhat7-s2i-nodejs
 
-SLASH := /
-DASH := -
+SLASH:=/
+DASH:=-
 
 
 # These values are changed in each version branch
