@@ -11,7 +11,7 @@ DASH := -
 include versions.mk
 
 TARGET=$(IMAGE_NAME):$(IMAGE_TAG)
-ARCHIVE=sources-$(subst $(SLASH),$(DASH),$(TARGET)).tgz
+#ARCHIVE=sources-$(subst $(SLASH),$(DASH),$(TARGET)).tgz
 
 .PHONY: all
 all: build squash test
