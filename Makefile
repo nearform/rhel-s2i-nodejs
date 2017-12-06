@@ -36,9 +36,9 @@ test:
 clean:
 	docker rmi `docker images $(TARGET) -q`
 
-# .PHONY: tag
-# tag:
-# 	if [ ! -z $(LTS_TAG) ]; then docker tag $(TARGET) $(IMAGE_NAME):$(LTS_TAG); fi
+.PHONY: tag
+tag:
+	if [ ! -z $(LTS_TAG) ]; then docker tag $(TARGET) $(IMAGE_NAME):$(LTS_TAG); fi
 
 .PHONY: publish
 publish:
