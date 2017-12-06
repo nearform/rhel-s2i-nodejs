@@ -59,7 +59,7 @@ jobs:
           name: Publish
           command: |
             make publish
-            @echo ${RH_DOCKER_PASS} | docker login -u unused registry.rhc4tp.openshift.com:443 --password-stdin
+            echo ${RH_DOCKER_PASS} | docker login -u unused registry.rhc4tp.openshift.com:443 --password-stdin
             RH_TARGET="registry.rhc4tp.openshift.com:443/p936591153adf2db17145e97afc3511f2549b5dfa3/redhat7-s2i-nodejs:${TAG}"
             docker tag nearform/rhel7-s2i-nodejs:${TAG} ${RH_TARGET}
             docker push ${RH_TARGET}
@@ -71,7 +71,7 @@ jobs:
           name: Upload
           command: |
             sudo pip install --no-deps s3cmd
-            @echo "access_key = $AWS_ACCESS_KEY_ID" >> ~/.s3cfg
-            @echo "secret_key = $AWS_SECRET_ACCESS_KEY" >> ~/.s3cfg
+            echo "access_key = $AWS_ACCESS_KEY_ID" >> ~/.s3cfg
+            echo "secret_key = $AWS_SECRET_ACCESS_KEY" >> ~/.s3cfg
             make upload
-            
+
