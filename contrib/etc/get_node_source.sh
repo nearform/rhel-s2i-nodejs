@@ -5,6 +5,8 @@ set -ex
 NODE_VERSION="${1}"
 SRCDIR="${2}"
 
+mkdir -p "${SRCDIR}" || exit 1
+
 # Download and install a binary from nodejs.org
 # Add the gpg keys listed at https://github.com/nodejs/node
 for key in \

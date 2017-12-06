@@ -54,11 +54,22 @@ parser.add_option('--minor',
     dest='minor',
     help='image major tag if any')
 
+
+parser.add_option('--debug',
+                  action='store_true',
+                  dest='debug_buildscript',
+                  help='This build is for debugging build scripts',
+                 default=False)
+
 (options, args) = parser.parse_args()
 
 with io.FileIO("versions.mk", "w") as file:
     file.write("NODE_VERSION="+options.node_version+"\n")
-    file.write("IMAGE_TAG="+options.tag+"\n")
+    if options.debug:
+        file.write("IMAGE_TAG=buildscript-debug")
+        file.write("DEBUG_BUILD=T")
+    else:
+        file.write("IMAGE_TAG="+options.tag+"\n")
     if options.lts:
         file.write("LTS_TAG="+options.lts+"\n")
     if options.major:
