@@ -1,4 +1,5 @@
 FROM=registry.access.redhat.com/rhscl/s2i-base-rhel7
+RH_TARGET=registry.rhc4tp.openshift.com:443/$(RH_PID)/redhat7-s2i-nodejs:$(TAG)
 
 SLASH := /
 DASH := -
@@ -65,9 +66,9 @@ endif
 .PHONY: redhat_publish
 redhat_publish:
 ifndef DEBUG_BUILD
-	RH_TARGET="registry.rhc4tp.openshift.com:443/$(RH_PID)/redhat7-s2i-nodejs:$(TAG)"
 	docker tag nearform/rhel7-s2i-nodejs:$(TAG) $(RH_TARGET)
-	IMAGE_DIGEST=$($(docker push $(RH_TARGET)) | sed -e 's/.*\(sha.*\)\s.*/\1/g')
+	PUSH=$(shell docker push $(RH_TARGET))
+	IMAGE_DIGEST=$(PUSH) | sed -e 's/.*\(sha.*\)\s.*/\1/g')
 	echo "Publishing the new image in the catalog"
 	curl -X POST \
 		-H "Content-Type: application/json" \
