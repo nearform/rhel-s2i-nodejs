@@ -14,6 +14,9 @@ TARGET=$(IMAGE_NAME):$(IMAGE_TAG)
 ARCHIVE_NAME=$(IMAGE_NAME)-$(IMAGE_TAG)
 ARCHIVE=sources-$(subst $(SLASH),$(DASH),$(ARCHIVE_NAME)).tgz
 
+envinfo:
+	echo $(call .FEATURES)
+
 .PHONY: all
 all: build squash test
 

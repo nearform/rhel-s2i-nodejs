@@ -8,6 +8,10 @@ jobs:
       - checkout
       - setup_remote_docker
       - run:
+          name: Info
+          command: |
+            make envinfo
+      - run:
           name: Configure
           command: |
             if [[ -z $NODE_VERSION || -z $V8_VERSION || -z $NPM_VERSION || -z $IMAGE_TAG ]]; then
