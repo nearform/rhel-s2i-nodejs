@@ -49,11 +49,7 @@ tag:
 publish:
 	@echo $(DOCKER_PASS) | docker login --username $(DOCKER_USER) --password-stdin
 	docker push $(TARGET)
-ifdef DEBUG_BUILD
-undefine MAJOR_TAG
-undefine MINOR_TAG
-undefine LTS_TAG
-endif
+ifndef DEBUG_BUILD
 ifdef MAJOR_TAG
 	docker tag $(TARGET) $(IMAGE_NAME):$(MAJOR_TAG)
 	docker push $(IMAGE_NAME):$(MAJOR_TAG)
