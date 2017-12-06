@@ -43,7 +43,7 @@ tag:
 
 .PHONY: publish
 publish:
-	echo $(DOCKER_PASS) | docker login --username $(DOCKER_USER) --password-stdin
+	@echo $(DOCKER_PASS) | docker login --username $(DOCKER_USER) --password-stdin
 	docker push $(TARGET)
 ifdef DEBUG_BUILD
 undefine MAJOR_TAG
