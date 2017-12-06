@@ -79,5 +79,6 @@ jobs:
             pip install --user --no-deps s3cmd
             echo "access_key = $AWS_ACCESS_KEY_ID" >> ~/.s3cfg
             echo "secret_key = $AWS_SECRET_ACCESS_KEY" >> ~/.s3cfg
+            export PATH="${PATH}:${HOME}/.local/bin/"
             make upload
 
