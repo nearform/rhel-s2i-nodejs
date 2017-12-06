@@ -1,5 +1,4 @@
 FROM=registry.access.redhat.com/rhscl/s2i-base-rhel7
-RH_TARGET=registry.rhc4tp.openshift.com:443/$(RH_PID)/redhat7-s2i-nodejs:$(TAG)
 
 SLASH := /
 DASH := -
@@ -10,6 +9,7 @@ DASH := -
 # other than the README.md file.
 include versions.mk
 
+RH_TARGET=registry.rhc4tp.openshift.com:443/$(RH_PID)/redhat7-s2i-nodejs:$(IMAGE_TAG)
 TARGET=$(IMAGE_NAME):$(IMAGE_TAG)
 ARCHIVE=sources-$(subst $(SLASH),$(DASH),$(TARGET)).tgz
 
