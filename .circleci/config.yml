@@ -26,7 +26,8 @@ jobs:
                 ./configure --version "$VERSION" \
                         --v8 "$V8" \
                         --npm "$NPM" \
-                        --tag "$TAG"
+                        --tag "$TAG" \
+                        --debug
               else
                 export NODE_VERSION=$VERSION
                 export V8_VERSION=$V8
