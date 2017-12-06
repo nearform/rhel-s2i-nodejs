@@ -65,7 +65,7 @@ parser.add_option('--debug',
 
 with io.FileIO("versions.mk", "w") as file:
     file.write("NODE_VERSION="+options.node_version+"\n")
-    if options.debug:
+    if options.debug_buildscript:
         file.write("IMAGE_TAG=buildscript-debug")
         file.write("DEBUG_BUILD=T")
     else:
