@@ -62,6 +62,13 @@ ifdef LTS_TAG
 	docker tag $(TARGET) $(IMAGE_NAME):$(LTS_TAG)
 	docker push $(IMAGE_NAME):$(LTS_TAG)
 endif
+.PHONY: redhat_publish
+redhat_publish:
+ifndef DEBUG_BUILD
+	RH_TARGET="registry.rhc4tp.openshift.com:443/p936591153adf2db17145e97afc3511f2549b5dfa3/redhat7-s2i-nodejs:$(TAG)"
+	docker tag nearform/rhel7-s2i-nodejs:$(TAG) $(RH_TARGET)
+	docker push $(RH_TARGET)
+endif
 
 .PHONY: archive
 archive:
