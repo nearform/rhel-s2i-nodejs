@@ -50,15 +50,7 @@ tag:
 publish:
 	@echo $(DOCKER_PASS) | docker login --username $(DOCKER_USER) --password-stdin
 	docker push $(TARGET)
-<<<<<<< HEAD
-ifdef DEBUG_BUILD
-unexport MAJOR_TAG
-unexport MINOR_TAG
-unexport LTS_TAG
-endif
-=======
 ifndef DEBUG_BUILD
->>>>>>> master
 ifdef MAJOR_TAG
 	docker tag $(TARGET) $(IMAGE_NAME):$(MAJOR_TAG)
 	docker push $(IMAGE_NAME):$(MAJOR_TAG)
@@ -71,11 +63,8 @@ ifdef LTS_TAG
 	docker tag $(TARGET) $(IMAGE_NAME):$(LTS_TAG)
 	docker push $(IMAGE_NAME):$(LTS_TAG)
 endif
-<<<<<<< HEAD
-=======
 endif
 
->>>>>>> master
 
 .PHONY: redhat_publish
 redhat_publish:

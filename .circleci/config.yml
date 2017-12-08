@@ -16,7 +16,7 @@ jobs:
           command: |
             if [[ -z $NODE_VERSION || -z $V8_VERSION || -z $NPM_VERSION || -z $IMAGE_TAG ]]; then
               if [[ -z $VERSION || -z $V8 || -z $NPM || -z $TAG ]]; then
-                echo 'one or more variables are undefined, aborting build.'
+                echo 'one or more variables are undefined'
                 echo "Assuming build script debug mode"
                 export VERSION=6.12.1
                 export V8=5.1.281.109
