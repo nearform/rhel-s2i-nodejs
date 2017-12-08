@@ -8,6 +8,10 @@ jobs:
       - checkout
       - setup_remote_docker
       - run:
+          name: Info
+          command: |
+            make envinfo
+      - run:
           name: Configure
           command: |
             if [[ -z $NODE_VERSION || -z $V8_VERSION || -z $NPM_VERSION || -z $IMAGE_TAG ]]; then
@@ -72,8 +76,10 @@ jobs:
       - run:
           name: Upload
           command: |
-            sudo pip install --no-deps s3cmd
+            pip install --user python-dateutil
+            pip install --user --no-deps s3cmd
             echo "access_key = $AWS_ACCESS_KEY_ID" >> ~/.s3cfg
             echo "secret_key = $AWS_SECRET_ACCESS_KEY" >> ~/.s3cfg
+            export PATH="${PATH}:${HOME}/.local/bin/"
             make upload
 

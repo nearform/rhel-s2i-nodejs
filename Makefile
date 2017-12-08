@@ -2,8 +2,8 @@ FROM=registry.access.redhat.com/rhscl/s2i-base-rhel7
 
 SLASH := /
 DASH := -
-
-
+DOT := .
+COLON := :
 # These values are changed in each version branch
 # This is the only place they need to be changed
 # other than the README.md file.
@@ -12,7 +12,11 @@ include versions.mk
 IMG_STRING=$(shell echo $(IMAGE_NAME) | cut -d'/' -f2)
 RH_TARGET=registry.rhc4tp.openshift.com:443/$(RH_PID)/$(IMG_STRING):$(IMAGE_TAG)
 TARGET=$(IMAGE_NAME):$(IMAGE_TAG)
-ARCHIVE=sources-$(subst $(SLASH),$(DASH),$(TARGET)).tgz
+ARCHIVE_NAME=$(IMAGE_NAME)-$(IMAGE_TAG)
+ARCHIVE=sources-$(subst $(SLASH),$(DASH),$(ARCHIVE_NAME)).tgz
+
+envinfo:
+	echo $(call .FEATURES)
 
 .PHONY: all
 all: build squash test
@@ -46,11 +50,15 @@ tag:
 publish:
 	@echo $(DOCKER_PASS) | docker login --username $(DOCKER_USER) --password-stdin
 	docker push $(TARGET)
+<<<<<<< HEAD
 ifdef DEBUG_BUILD
 unexport MAJOR_TAG
 unexport MINOR_TAG
 unexport LTS_TAG
 endif
+=======
+ifndef DEBUG_BUILD
+>>>>>>> master
 ifdef MAJOR_TAG
 	docker tag $(TARGET) $(IMAGE_NAME):$(MAJOR_TAG)
 	docker push $(IMAGE_NAME):$(MAJOR_TAG)
@@ -63,9 +71,15 @@ ifdef LTS_TAG
 	docker tag $(TARGET) $(IMAGE_NAME):$(LTS_TAG)
 	docker push $(IMAGE_NAME):$(LTS_TAG)
 endif
+<<<<<<< HEAD
+=======
+endif
+
+>>>>>>> master
 
 .PHONY: redhat_publish
 redhat_publish:
+	echo "Publishing to RedHat repository"
 ifndef DEBUG_BUILD
 	RH_TARGET="registry.rhc4tp.openshift.com:443/p936591153adf2db17145e97afc3511f2549b5dfa3/redhat7-s2i-nodejs:$(TAG)"
 	docker tag nearform/rhel7-s2i-nodejs:$(TAG) $(RH_TARGET)
