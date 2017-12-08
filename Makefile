@@ -14,6 +14,9 @@ TARGET=$(IMAGE_NAME):$(IMAGE_TAG)
 ARCHIVE_NAME=$(IMAGE_NAME)-$(IMAGE_TAG)
 ARCHIVE=sources-$(subst $(SLASH),$(DASH),$(ARCHIVE_NAME)).tgz
 
+envinfo:
+	echo $(call .FEATURES)
+
 .PHONY: all
 all: build squash test
 
@@ -46,11 +49,7 @@ tag:
 publish:
 	@echo $(DOCKER_PASS) | docker login --username $(DOCKER_USER) --password-stdin
 	docker push $(TARGET)
-ifdef DEBUG_BUILD
-undefine MAJOR_TAG
-undefine MINOR_TAG
-undefine LTS_TAG
-endif
+ifndef DEBUG_BUILD
 ifdef MAJOR_TAG
 	docker tag $(TARGET) $(IMAGE_NAME):$(MAJOR_TAG)
 	docker push $(IMAGE_NAME):$(MAJOR_TAG)
@@ -63,8 +62,12 @@ ifdef LTS_TAG
 	docker tag $(TARGET) $(IMAGE_NAME):$(LTS_TAG)
 	docker push $(IMAGE_NAME):$(LTS_TAG)
 endif
+endif
+
+
 .PHONY: redhat_publish
 redhat_publish:
+	echo "Publishing to RedHat repository"
 ifndef DEBUG_BUILD
 	RH_TARGET="registry.rhc4tp.openshift.com:443/p936591153adf2db17145e97afc3511f2549b5dfa3/redhat7-s2i-nodejs:$(TAG)"
 	docker tag nearform/rhel7-s2i-nodejs:$(TAG) $(RH_TARGET)
