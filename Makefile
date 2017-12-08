@@ -5,6 +5,9 @@ SLASH := /
 DASH := -
 DOT := .
 COLON := :
+
+PREBUILT := N
+
 # These values are changed in each version branch
 # This is the only place they need to be changed
 # other than the README.md file.
@@ -27,6 +30,7 @@ build:
 	--build-arg NODE_VERSION=$(NODE_VERSION) \
 	--build-arg NPM_VERSION=$(NPM_VERSION) \
 	--build-arg V8_VERSION=$(V8_VERSION) \
+	--build-arg PREBUILT=$(PREBUILT) \
 	-t $(TARGET) .
 
 .PHONY: squash

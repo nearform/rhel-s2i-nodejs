@@ -27,15 +27,19 @@ set -ex
 # grep " node-v${NODE_VERSION}.tar.gz" SHASUMS256.txt.asc | sha256sum -c -
 
 # Unpack and install node/npm
-tar -zxf /src/node-v${NODE_VERSION}.tar.gz -C /tmp/ --strip-components=1
 
-cd /tmp/
-./configure
-make -j -l8
-make install
-
-# we install npm based on what is in the source
-#npm install -g npm@${NPM_VERSION} -s &>/dev/null
+if [[ x"${PREBUILT}" == "xT"]]; then
+    echo "Installing from prebuilt binary"
+    tar -zxf /src/node-v${NODE_VERSION}-linux-x64.tar.gz -C /usr/local --strip-components=1
+    npm install -g npm@${NPM_VERSION} -s &>/dev/null
+else
+    echo "INFO: Building from source"
+    tar -zxf /src/node-v${NODE_VERSION}.tar.gz -C /tmp/ --strip-components=1
+    cd /tmp/
+    ./configure
+    make -j -l8
+    make install
+fi
 
 # Install yarn
 npm install -g yarn -s &>/dev/null
@@ -52,4 +56,4 @@ chmod -R 777 /opt/app-root/src/.config
 find /usr/local/lib/node_modules/npm -name test -o -name .bin -type d | xargs rm -rf
 
 # Clean up the stuff we downloaded
-rm -rf ~/node-v${NODE_VERSION}.tar.gz ~/SHASUMS256.txt.asc /tmp/node-v${NODE_VERSION} ~/.npm ~/.node-gyp ~/.gnupg /usr/share/man /tmp/* /usr/local/lib/node_modules/npm/man /usr/local/lib/node_modules/npm/doc /usr/local/lib/node_modules/npm/html
+rm -rf /src /tmp/node-v${NODE_VERSION} ~/.npm ~/.node-gyp ~/.gnupg /usr/share/man /tmp/* /usr/local/lib/node_modules/npm/man /usr/local/lib/node_modules/npm/doc /usr/local/lib/node_modules/npm/html
