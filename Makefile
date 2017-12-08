@@ -18,14 +18,14 @@ ARCHIVE_NAME=$(IMAGE_NAME)-$(IMAGE_TAG)
 ARCHIVE=sources-$(subst $(SLASH),$(DASH),$(ARCHIVE_NAME)).tgz
 
 envinfo:
-	echo $(call .FEATURES)
-
+	@echo $(call .FEATURES)
+	@env
 .PHONY: all
 all: build squash test
 
 .PHONY: build
 build:
-	./contrib/etc/get_node_source.sh "${NODE_VERSION}" $(PWD)/src/
+	$(shell PREBUILT=$(PREBUILT) ./contrib/etc/get_node_source.sh "${NODE_VERSION}" $(PWD)/src/)
 	docker build \
 	--build-arg NODE_VERSION=$(NODE_VERSION) \
 	--build-arg NPM_VERSION=$(NPM_VERSION) \
