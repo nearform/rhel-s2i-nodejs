@@ -81,7 +81,7 @@ if options.prebuilt:
 
 with io.FileIO("versions.mk", "w") as file:
     file.write("NODE_VERSION="+options.node_version+"\n")
-    file.write("IMAGE_TAG="+IMAGE_TAG)
+    file.write("IMAGE_TAG="+IMAGE_TAG+"\n")
     if options.debug_buildscript:
         file.write("DEBUG_BUILD=T\n")
     else:
