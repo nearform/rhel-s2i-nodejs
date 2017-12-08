@@ -10,7 +10,7 @@ DASH := -
 include versions.mk
 
 IMG_STRING=$(shell echo $(IMAGE_NAME) | cut -d'/' -f2)
-RH_TARGET=registry.rhc4tp.openshift.com:443/$(RH_PID)$(IMG_STRING):$(IMAGE_TAG)
+RH_TARGET=registry.rhc4tp.openshift.com:443/$(RH_PID)/$(IMG_STRING):$(IMAGE_TAG)
 TARGET=$(IMAGE_NAME):$(IMAGE_TAG)
 ARCHIVE=sources-$(subst $(SLASH),$(DASH),$(TARGET)).tgz
 
@@ -69,7 +69,7 @@ redhat_publish:
 ifndef DEBUG_BUILD
 	docker tag nearform/rhel7-s2i-nodejs:$(IMAGE_TAG) $(RH_TARGET)
 	PUSH=$(shell docker push $(RH_TARGET))
-	IMAGE_DIGEST=$(PUSH) | sed -e 's/.*\(sha.*\)\s.*/\1/g')
+	IMAGE_DIGEST=$(shell echo $(PUSH) | sed -e 's/.*\(sha.*\)\s.*/\1/g'))
 	echo "Publishing the new image in the catalog"
 	curl -X POST \
 		-H 'Content-Type: application/json' \
