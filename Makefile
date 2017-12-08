@@ -67,14 +67,10 @@ endif
 .PHONY: redhat_publish
 redhat_publish:
 ifndef DEBUG_BUILD
-	docker tag nearform/rhel7-s2i-nodejs:$(IMAGE_TAG) $(RH_TARGET)
-	PUSH=$(shell docker push $(RH_TARGET))
-	IMAGE_DIGEST=$(shell echo $(PUSH) | sed -e 's/.*\(sha.*\)\s.*/\1/g'))
-	echo "Publishing the new image in the catalog"
-	curl -X POST \
-		-H 'Content-Type: application/json' \
-		-d '{"pid":"$(RH_PID)","docker_image_digest":"$(IMAGE_DIGEST)", "secret":"$(RH_SECRET")' \
-		https://connect.redhat.com/api/container/publish
+	RH_TARGET="registry.rhc4tp.openshift.com:443/p936591153adf2db17145e97afc3511f2549b5dfa3/redhat7-s2i-nodejs:$(TAG)"
+	docker tag nearform/rhel7-s2i-nodejs:$(TAG) $(RH_TARGET)
+	docker push $(RH_TARGET)
+	rh_publish.sh
 endif
 
 .PHONY: archive
