@@ -61,12 +61,28 @@ parser.add_option('--debug',
                   help='This build is for debugging build scripts',
                  default=False)
 
+parser.add_option('--prebuilt',
+                  action='store_true',
+                  dest='prebuilt',
+                  help='Use prebuilt binaries',
+                  default=False)
+
 (options, args) = parser.parse_args()
+
+IMAGE_TAG=""
+if options.debug_buildscript:
+    IMAGE_TAG="buildscript-debug"
+else:
+    IMAGE_TAG=""+options.tag
+
+if options.prebuilt:
+    IMAGE_TAG=IMAGE_TAG+"-prebuilt"
+
 
 with io.FileIO("versions.mk", "w") as file:
     file.write("NODE_VERSION="+options.node_version+"\n")
+    file.write("IMAGE_TAG="+IMAGE_TAG+"\n")
     if options.debug_buildscript:
-        file.write("IMAGE_TAG=buildscript-debug\n")
         file.write("DEBUG_BUILD=T\n")
     else:
         file.write("IMAGE_TAG="+options.tag+"\n")
@@ -78,6 +94,8 @@ with io.FileIO("versions.mk", "w") as file:
         file.write("MAJOR_MINOR_TAG="+options.minor+"\n")
     file.write("IMAGE_NAME=nearform/rhel7-s2i-nodejs\n")
     file.write("NPM_VERSION="+options.npm+"\n")
+    if options.prebuilt:
+        file.write("PREBUILT=T\n")
 
 with io.FileIO("versions.mk", "r") as file:
     print file.read()

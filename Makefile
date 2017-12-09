@@ -5,6 +5,9 @@ SLASH := /
 DASH := -
 DOT := .
 COLON := :
+
+PREBUILT := N
+
 # These values are changed in each version branch
 # This is the only place they need to be changed
 # other than the README.md file.
@@ -15,18 +18,19 @@ ARCHIVE_NAME=$(IMAGE_NAME)-$(IMAGE_TAG)
 ARCHIVE=sources-$(subst $(SLASH),$(DASH),$(ARCHIVE_NAME)).tgz
 
 envinfo:
-	echo $(call .FEATURES)
-
+	@echo $(call .FEATURES)
+	@env
 .PHONY: all
 all: build squash test
 
 .PHONY: build
 build:
-	./contrib/etc/get_node_source.sh "${NODE_VERSION}" $(PWD)/src/
+	PREBUILT=$(PREBUILT) ./contrib/etc/get_node_source.sh "${NODE_VERSION}" $(PWD)/src/
 	docker build \
 	--build-arg NODE_VERSION=$(NODE_VERSION) \
 	--build-arg NPM_VERSION=$(NPM_VERSION) \
 	--build-arg V8_VERSION=$(V8_VERSION) \
+	--build-arg PREBUILT=$(PREBUILT) \
 	-t $(TARGET) .
 
 .PHONY: squash

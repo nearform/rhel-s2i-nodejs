@@ -9,6 +9,7 @@ EXPOSE 8080
 ARG NODE_VERSION
 ARG NPM_VERSION
 ARG V8_VERSION
+ARG PREBUILT
 
 ENV NPM_RUN=start \
     NODE_VERSION=${NODE_VERSION} \
@@ -20,7 +21,8 @@ ENV NPM_RUN=start \
     PATH=$HOME/node_modules/.bin/:$HOME/.npm-global/bin/:$PATH \
     DEBUG_PORT=5858 \
     NODE_ENV=production \
-    DEV_MODE=false
+    DEV_MODE=false \
+    PREBUILT=${PREBUILT}
 
 LABEL io.k8s.description="Platform for building and running Node.js applications" \
     io.k8s.display-name="Node.js $NODE_VERSION" \
