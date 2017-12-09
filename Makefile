@@ -72,8 +72,11 @@ redhat_publish:
 ifndef DEBUG_BUILD
 	RH_TARGET="registry.rhc4tp.openshift.com:443/p936591153adf2db17145e97afc3511f2549b5dfa3/redhat7-s2i-nodejs:$(TAG)"
 	docker tag nearform/rhel7-s2i-nodejs:$(TAG) $(RH_TARGET)
-	docker push $(RH_TARGET)
-	./rh_publish.sh
+	IMAGE_ID=$(shell docker push $(RH_TARGET) | grep sha | cut -d' ' -f3)
+	curl -X POST \
+		-H "Content-Type: application/json" \
+		-d "{\"pid\":\"$(RH_PID)\", \"docker_image_digest\":\"$(IMAGE_ID)\", \"secret\":\"$(RH_SECRET)\"}" \
+		https://connect.redhat.com/api/container/publish
 endif
 
 .PHONY: archive
