@@ -25,7 +25,13 @@ done
 
 # Get the node binary and it's shasum
 cd "${SRCDIR}"
-curl -O -sSL https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}.tar.gz
 curl -O -sSL https://nodejs.org/dist/v${NODE_VERSION}/SHASUMS256.txt.asc
 gpg --verify SHASUMS256.txt.asc || exit 1
-grep " node-v${NODE_VERSION}.tar.gz" SHASUMS256.txt.asc | sha256sum -c -
+if [[ x"${PREBUILT}" == "xT" ]]; then
+    curl -O -sSL https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz
+    grep " node-v${NODE_VERSION}-linux-x64.tar.gz" SHASUMS256.txt.asc | sha256sum -c -
+else
+    curl -O -sSL https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}.tar.gz
+    grep " node-v${NODE_VERSION}.tar.gz" SHASUMS256.txt.asc | sha256sum -c -
+fi
+
