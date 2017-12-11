@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-        - image: elexy/circleci_s2i:0.0.2
+        - image: nearform/docker_circleci
     resource_class: xlarge
     steps:
       - checkout
