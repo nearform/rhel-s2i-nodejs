@@ -51,13 +51,13 @@ jobs:
       - run:
           name: Test
           command: make test
-      - run:
-          name: Tag LTS if this is an LTS release
-          command: make tag
-      - run:
-          name: Publish
-          command: |
-            make publish
+    #   - run:
+    #       name: Tag LTS if this is an LTS release
+    #       command: make tag
+    #   - run:
+    #       name: Publish
+    #       command: |
+    #         make publish
       - run:
           name: Publish to Red Hat
           command: |
