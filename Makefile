@@ -75,11 +75,7 @@ redhat_publish:
 	echo "Publishing to RedHat repository"
 ifndef DEBUG_BUILD
 	docker tag nearform/rhel7-s2i-nodejs:$(TAG) $(RH_TARGET)
-	docker push $(RH_TARGET) | grep sha | cut -d' ' -f3 | xargs -0 -I {} \
-		curl -X POST \
-			-H "Content-Type: application/json" \
-			-d "{\"pid\":\"$(RH_PID)\", \"docker_image_digest\":\"{}\", \"secret\":\"$(RH_SECRET)\"}" \
-			https://connect.redhat.com/api/container/publish)
+	docker push $(RH_TARGET)
 endif
 
 .PHONY: archive

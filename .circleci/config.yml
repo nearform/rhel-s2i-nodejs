@@ -38,26 +38,25 @@ jobs:
                         --tag "$TAG" \
                         --lts "$LTS" \
                         --major "$MAJOR" \
-                        --minor "$MINOR" \
-                        --prebuilt
+                        --minor "$MINOR"
             fi
 
       - run:
           name: Build
           command: make build
-    #   - run:
-    #       name: Docker squash
-    #       command: make squash
-    #   - run:
-    #       name: Test
-    #       command: make test
-    #   - run:
-    #       name: Tag LTS if this is an LTS release
-    #       command: make tag
-    #   - run:
-    #       name: Publish
-    #       command: |
-    #         make publish
+      - run:
+          name: Docker squash
+          command: make squash
+      - run:
+          name: Test
+          command: make test
+      - run:
+          name: Tag LTS if this is an LTS release
+          command: make tag
+      - run:
+          name: Publish
+          command: |
+            make publish
       - run:
           name: Publish to Red Hat
           command: |
