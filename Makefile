@@ -74,16 +74,12 @@ endif
 redhat_publish:
 	echo "Publishing to RedHat repository"
 ifndef DEBUG_BUILD
-	RH_TARGET="registry.rhc4tp.openshift.com:443/p936591153adf2db17145e97afc3511f2549b5dfa3/redhat7-s2i-nodejs:$(TAG)"
 	docker tag nearform/rhel7-s2i-nodejs:$(TAG) $(RH_TARGET)
-	PUSH_OUTPUT=$(eval docker push $(RH_TARGET))
-	echo PUSH_OUTPUT
-	IMAGE_ID=$(eval echo "${PUSH_OUTPUT}" | grep sha | cut -d' ' -f3)
-	echo IMAGE_ID
+	docker push $RH_TARGET} | grep sha | cut -d' ' -f3 | xargs -0 -I {} echo {}
 	# curl -X POST \
 	# 	-H "Content-Type: application/json" \
 	# 	-d "{\"pid\":\"$(RH_PID)\", \"docker_image_digest\":\"$(IMAGE_ID)\", \"secret\":\"$(RH_SECRET)\"}" \
-	# 	https://connect.redhat.com/api/container/publish
+	# 	https://connect.redhat.com/api/container/publish)
 endif
 
 .PHONY: archive
