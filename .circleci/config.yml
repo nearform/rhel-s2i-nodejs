@@ -50,26 +50,27 @@ jobs:
               fi
             fi
 
-      - run:
-          name: Build
-          command: make build
-      - run:
-          name: Docker squash
-          command: make squash
-      - run:
-          name: Test
-          command: make test
-      - run:
-          name: Tag LTS if this is an LTS release
-          command: make tag
-      - run:
-          name: Publish
-          command: |
-            make publish
+    #   - run:
+    #       name: Build
+    #       command: make build
+    #   - run:
+    #       name: Docker squash
+    #       command: make squash
+    #   - run:
+    #       name: Test
+    #       command: make test
+    #   - run:
+    #       name: Tag LTS if this is an LTS release
+    #       command: make tag
+    #   - run:
+    #       name: Publish
+    #       command: |
+    #         make publish
       - run:
           name: Publish to Red Hat
           command: |
             pwd
+            ./getRepoSecret.sh
             echo $(./getRepoSecret.sh) | docker login -u unused registry.rhc4tp.openshift.com:443 --password-stdin
             make redhat_publish
       - run:
