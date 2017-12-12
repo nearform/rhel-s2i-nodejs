@@ -63,7 +63,7 @@ jobs:
           command: |
             set -x
             source contrib/etc/util.sh
-            echo getProjectSecret | docker login -u unused registry.rhc4tp.openshift.com:443 --password-stdin
+            echo $(getProjectSecret) | docker login -u unused registry.rhc4tp.openshift.com:443 --password-stdin
             export RH_PID=$(getProjectId)
             make redhat_publish
             set +x
