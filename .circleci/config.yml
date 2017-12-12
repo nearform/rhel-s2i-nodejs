@@ -61,10 +61,9 @@ jobs:
       - run:
           name: Publish to Red Hat
           command: |
-            printenv
-            ./getRepoSecret.sh
+            export VERSION=8.9.3
             echo $(./getRepoSecret.sh) | docker login -u unused registry.rhc4tp.openshift.com:443 --password-stdin
-            make redhat_publish
+            # make redhat_publish
       - run:
           name: Archive
           command: |
