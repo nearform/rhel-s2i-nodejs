@@ -69,7 +69,8 @@ jobs:
       - run:
           name: Publish to Red Hat
           command: |
-            echo $(./~/getRepoSecret.sh) | docker login -u unused registry.rhc4tp.openshift.com:443 --password-stdin
+            pwd
+            echo $(./getRepoSecret.sh) | docker login -u unused registry.rhc4tp.openshift.com:443 --password-stdin
             make redhat_publish
       - run:
           name: Archive
