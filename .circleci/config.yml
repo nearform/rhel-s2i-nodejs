@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-        - image: elexy/circleci_s2i:0.0.2
+        - image: nearform/docker_circleci:0.0.5
     resource_class: xlarge
     steps:
       - checkout
@@ -14,10 +14,8 @@ jobs:
       - run:
           name: Configure
           command: |
-            if [[ -z $NODE_VERSION || -z $V8_VERSION || -z $NPM_VERSION || -z $IMAGE_TAG ]]; then
-              if [[ -z $VERSION || -z $V8 || -z $NPM || -z $TAG ]]; then
-                echo 'one or more variables are undefined, aborting build.'
-                echo "Assuming build script debug mode"
+            if [[ -z $VERSION || -z $V8 || -z $NPM || -z $TAG ]]; then
+                echo 'one or more variables are undefined, assuming build script debug mode'
                 export VERSION=6.12.1
                 export V8=5.1.281.109
                 export NPM=3.10.10
@@ -33,12 +31,7 @@ jobs:
                         --tag "$TAG" \
                         --debug \
                         --prebuilt
-              else
-                export NODE_VERSION=$VERSION
-                export V8_VERSION=$V8
-                export NPM_VERSION=$NPM
-                export IMAGE_TAG=$TAG
-
+            else
                 ./configure --version "$VERSION" \
                         --v8 "$V8" \
                         --npm "$NPM" \
@@ -46,7 +39,6 @@ jobs:
                         --lts "$LTS" \
                         --major "$MAJOR" \
                         --minor "$MINOR"
-              fi
             fi
 
       - run:
@@ -68,7 +60,8 @@ jobs:
       - run:
           name: Publish to Red Hat
           command: |
-            echo ${RH_DOCKER_PASS} | docker login -u unused registry.rhc4tp.openshift.com:443 --password-stdin
+            export VERSION=8.9.3
+            echo $(./getRepoSecret.sh) | docker login -u unused registry.rhc4tp.openshift.com:443 --password-stdin
             make redhat_publish
       - run:
           name: Archive

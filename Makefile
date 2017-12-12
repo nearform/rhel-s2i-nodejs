@@ -1,5 +1,4 @@
 FROM=registry.access.redhat.com/rhscl/s2i-base-rhel7
-IMAGE_NAME=nearform/redhat7-s2i-nodejs
 
 SLASH := /
 DASH := -
@@ -13,6 +12,8 @@ PREBUILT := N
 # other than the README.md file.
 include versions.mk
 
+IMG_STRING=$(shell echo $(IMAGE_NAME) | cut -d'/' -f2)
+RH_TARGET=registry.rhc4tp.openshift.com:443/$(RH_PID)/$(IMG_STRING):$(IMAGE_TAG)
 TARGET=$(IMAGE_NAME):$(IMAGE_TAG)
 ARCHIVE_NAME=$(IMAGE_NAME)-$(IMAGE_TAG)
 ARCHIVE=sources-$(subst $(SLASH),$(DASH),$(ARCHIVE_NAME)).tgz
@@ -73,7 +74,6 @@ endif
 redhat_publish:
 	echo "Publishing to RedHat repository"
 ifndef DEBUG_BUILD
-	RH_TARGET="registry.rhc4tp.openshift.com:443/p936591153adf2db17145e97afc3511f2549b5dfa3/redhat7-s2i-nodejs:$(TAG)"
 	docker tag nearform/rhel7-s2i-nodejs:$(TAG) $(RH_TARGET)
 	docker push $(RH_TARGET)
 endif

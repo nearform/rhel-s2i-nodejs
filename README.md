@@ -9,18 +9,33 @@ This repository contains sources for an [s2i](https://github.com/openshift/sourc
 For more information about using these images with OpenShift, please see the
 official [OpenShift Documentation](https://docs.openshift.org/latest/using_images/s2i_images/nodejs.html).
 
+### Building instructions for CircleCI ###
+The configuration can be found in /.circleci/config.json
+The build is configured using the following [build parameters](https://circleci.com/docs/2.0/env-vars/#injecting-environment-variables-with-the-api).
+* VERSION, node.js version i.e."8.9.3"
+* V8, V8 version i.e. "6.1.534.48"
+* NPM, npm version i.e. "5.5.1"
+* TAG, image tag i.e. "8.9.3"
+* MAJOR, major version i.e. "8"
+* MINOR, major and minor version i.e. "8.9"
+* LTS, LTS string i.e. "Carbon"
+* "PREBUILT", use prebuilt binaries if set to "T", otherwise build from sources
+
+Furthermore, there is a configurationfile at `.config/config.json` to map node.js versions to Red Hat projects.
+In order to push images to the Red Hat cetification registry a secret has to be provided for each project.
+The configurationfile provides the ENV variables used to obtain a secret for each project, i.e. `NODEJS_6_SECRET`.
+
 ## Versions
 
 Node.js versions [currently provided](https://hub.docker.com/r/nearform/rhel7-s2i-nodejs/tags/):
 
 <!-- versions.start -->
-* **`8.4.0`**: (8.x, latest)
-* **`7.10.1`**: (7.x)
-* **`6.11.2`**: (6.x, Boron)
-* **`5.12.0`**: (5.x)
-* **`4.8.4`**: (4.x, Argon)
+* **`9.2.1`**: (8.x, latest)
+* **`8.9.3`**: (8.x, latest)
+* **`6.12.2`**: (6.x, Boron)
 <!-- versions.end -->
 
+--> TODO below update
 ## Usage
 
 Using this image with OpenShift `oc` command line tool, or with `s2i` directly, will
