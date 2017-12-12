@@ -10,28 +10,28 @@
           "name": "Node.js Master Nightly Distribution",
           "id": "02-006161",
           "version": "master",
-          "repository_id": "p468950610db689974ba2a6589f37608893137c755",
+          "project_id": "p468950610db689974ba2a6589f37608893137c755",
           "repository_name": "rhel7-s2i-nodejs-master-nightly",
           "secret_env_name": "MASTER_NIGHTLY_SECRET"
         },{
           "name": "Node.js 6.x LTS Distribution",
           "id": "02-006151",
           "version": "6",
-          "repository_id": "p16716890402cfe3b4e348ce95b85d795c54ae69f2e",
+          "project_id": "p16716890402cfe3b4e348ce95b85d795c54ae69f2e",
           "repository_name": "rhel7-s2i-nodejs6",
           "secret_env_name": "NODEJS_6_SECRET"
         },{
           "name": "Node.js 8.x LTS Distribution",
           "id": "02-005961",
           "version": "8",
-          "repository_id": "p1206334362250d2f5b271c7ec03c455c0f3d084709",
+          "project_id": "p1206334362250d2f5b271c7ec03c455c0f3d084709",
           "repository_name": "rhel7-s2i-nodejs8",
           "secret_env_name": "NODEJS_8_SECRET"
         },{
           "name": "Node.js 9.x LTS Distribution",
           "id": "02-006131",
           "version": "9",
-          "repository_id": "p1206334362250d2f5b271c7ec03c455c0f3d084709",
+          "project_id": "p1206334362250d2f5b271c7ec03c455c0f3d084709",
           "repository_name": "rhel7-s2i-nodejs9",
           "secret_env_name": "NODEJS_9_SECRET"
         }
