@@ -78,10 +78,10 @@ ifndef DEBUG_BUILD
 	docker tag nearform/rhel7-s2i-nodejs:$(TAG) $(RH_TARGET)
 	PUSH_OUTPUT=$(shell docker push $(RH_TARGET))
 	IMAGE_ID=$(shell echo ${PUSH_OUTPUT} | grep sha | cut -d' ' -f3)
-	curl -X POST \
-		-H "Content-Type: application/json" \
-		-d "{\"pid\":\"$(RH_PID)\", \"docker_image_digest\":\"$(IMAGE_ID)\", \"secret\":\"$(RH_SECRET)\"}" \
-		https://connect.redhat.com/api/container/publish
+	# curl -X POST \
+	# 	-H "Content-Type: application/json" \
+	# 	-d "{\"pid\":\"$(RH_PID)\", \"docker_image_digest\":\"$(IMAGE_ID)\", \"secret\":\"$(RH_SECRET)\"}" \
+	# 	https://connect.redhat.com/api/container/publish
 endif
 
 .PHONY: archive
