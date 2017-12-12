@@ -10,7 +10,7 @@ else
     echo "INFO: Building from source"
     tar -zxf /src/node-v${NODE_VERSION}.tar.gz -C /tmp/ --strip-components=1
     cd /tmp/
-    ./configure && make -j4 test
+    ./configure
     make -j -l8
     make install
 fi
