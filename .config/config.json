@@ -14,13 +14,6 @@
           "repository_name": "rhel7-s2i-nodejs-master-nightly",
           "secret_env_name": "MASTER_NIGHTLY_SECRET"
         },{
-          "name": "Node.js 6.x LTS Distribution",
-          "id": "02-006151",
-          "version": "6",
-          "project_id": "p16716890402cfe3b4e348ce95b85d795c54ae69f2e",
-          "repository_name": "rhel7-s2i-nodejs6",
-          "secret_env_name": "NODEJS_6_SECRET"
-        },{
           "name": "Node.js 8.x LTS Distribution",
           "id": "02-005961",
           "version": "8",
