@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-        - image: nearform/docker_circleci:0.0.5
+        - image: nearform/docker_circleci:0.0.7
     resource_class: xlarge
     steps:
       - checkout
@@ -60,9 +60,12 @@ jobs:
       - run:
           name: Publish to Red Hat
           command: |
-            export VERSION=8.9.3
-            echo $(./getRepoSecret.sh) | docker login -u unused registry.rhc4tp.openshift.com:443 --password-stdin
+            set -x
+            source contrib/etc/util.sh
+            echo $(getProjectSecret) | docker login -u unused registry.rhc4tp.openshift.com:443 --password-stdin
+            export RH_PID=$(getProjectId)
             make redhat_publish
+            set +x
       - run:
           name: Archive
           command: |
@@ -70,10 +73,7 @@ jobs:
       - run:
           name: Upload
           command: |
-            pip install --user python-dateutil
-            pip install --user --no-deps s3cmd
             echo "access_key = $AWS_ACCESS_KEY_ID" >> ~/.s3cfg
             echo "secret_key = $AWS_SECRET_ACCESS_KEY" >> ~/.s3cfg
-            export PATH="${PATH}:${HOME}/.local/bin/"
             make upload
 
