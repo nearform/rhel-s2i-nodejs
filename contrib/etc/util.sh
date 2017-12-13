@@ -25,3 +25,11 @@ getProjectId() {
     checkVersionIsSet
     jq -r --arg version ${V} '.products[0].projects[] | select(.version==$version) | .project_id' ${CONFIG_PATH}
 }
+
+shouldPublish() {
+    checkVersionIsSet
+    MAJOR=$(echo ${VERSION} | cut -d'.' -f1)
+    RH_V=${RH_MIN_VERSION-8}
+    [ "$RH_V" -le "$MAJOR" ] && return
+    return
+}
