@@ -24,7 +24,7 @@
           "name": "Node.js 8.x LTS Distribution",
           "id": "02-005961",
           "version": "8",
-          "project_id": "p1206334362250d2f5b271c7ec03c455c0f3d084709",
+          "project_id": "p936591153adf2db17145e97afc3511f2549b5dfa3",
           "repository_name": "rhel7-s2i-nodejs8",
           "secret_env_name": "NODEJS_8_SECRET"
         },{
