@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-        - image: nearform/docker_circleci:0.0.5
+        - image: nearform/docker_circleci:0.0.6
     resource_class: xlarge
     steps:
       - checkout
@@ -74,8 +74,6 @@ jobs:
       - run:
           name: Upload
           command: |
-            pip install --user python-dateutil
-            pip install --user --no-deps s3cmd
             echo "access_key = $AWS_ACCESS_KEY_ID" >> ~/.s3cfg
             echo "secret_key = $AWS_SECRET_ACCESS_KEY" >> ~/.s3cfg
             export PATH="${PATH}:${HOME}/.local/bin/"
