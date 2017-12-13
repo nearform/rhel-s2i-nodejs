@@ -38,8 +38,7 @@ jobs:
                         --tag "$TAG" \
                         --lts "$LTS" \
                         --major "$MAJOR" \
-                        --minor "$MINOR" \
-                        --prebuilt
+                        --minor "$MINOR"
             fi
 
       - run:
