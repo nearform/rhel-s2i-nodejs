@@ -19,7 +19,8 @@ checkVersionIsSet() {
 
 getProjectSecret() {
     checkVersionIsSet
-    secret_varname=$(jq -r --arg version ${VERSION} '.products[0].projects[] | select(.version==$version) | .secret_env_name' ${CONFIG_PATH})
+    MAJOR=$(echo ${VERSION} | cut -d'.' -f1)
+    secret_varname=$(jq -r --arg version ${MAJOR} '.products[0].projects[] | select(.version==$version) | .secret_env_name' ${CONFIG_PATH})
     if [ ! -z "${!secret_varname}" ]; then
         echo "${!secret_varname}"
     else
@@ -30,7 +31,8 @@ getProjectSecret() {
 
 getProjectId() {
     checkVersionIsSet
-    jq -r --arg version ${V} '.products[0].projects[] | select(.version==$version) | .project_id' ${CONFIG_PATH}
+    MAJOR=$(echo ${VERSION} | cut -d'.' -f1)
+    jq -r --arg version ${MAJOR} '.products[0].projects[] | select(.version==$version) | .project_id' ${CONFIG_PATH}
 }
 
 shouldPublish() {
