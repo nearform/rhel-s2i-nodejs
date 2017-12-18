@@ -12,7 +12,7 @@ PREBUILT := N
 # other than the README.md file.
 include versions.mk
 
-IMG_STRING=$(shell echo $(IMAGE_NAME) | cut -d'/' -f2)
+IMG_STRING=$(shell echo $(IMAGE_NAME) | cut -d'/' -f2 | sed -e 's/rhel7/nearform/g;)
 RH_TARGET=registry.rhc4tp.openshift.com:443/$(RH_PID)/$(IMG_STRING):$(IMAGE_TAG)
 TARGET=$(IMAGE_NAME):$(IMAGE_TAG)
 ARCHIVE_NAME=$(IMAGE_NAME)-$(IMAGE_TAG)
