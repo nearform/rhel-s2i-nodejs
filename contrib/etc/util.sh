@@ -1,4 +1,5 @@
 #!/bin/bash
+
 CONFIG_PATH=.config/config.json
 
 isDebug() {
@@ -18,7 +19,7 @@ checkVersionIsSet() {
 
 getProjectSecret() {
     checkVersionIsSet
-    secret_varname=$(jq -r --arg version ${V} '.products[0].projects[] | select(.version==$version) | .secret_env_name' ${CONFIG_PATH})
+    secret_varname=$(jq -r --arg version ${VERSION} '.products[0].projects[] | select(.version==$version) | .secret_env_name' ${CONFIG_PATH})
     if [ ! -z "${!secret_varname}" ]; then
         echo "${!secret_varname}"
     else
