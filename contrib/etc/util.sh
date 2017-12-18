@@ -2,10 +2,11 @@
 CONFIG_PATH=.config/config.json
 
 isDebug() {
-    if [ -z "$DEBUG_BUILD" ]; then
-        return $true
+    if [ ! -z "$DEBUG_BUILD" ]; then
+        return 0
     fi
-    return $false
+    return 1
+
 }
 
 checkVersionIsSet() {
@@ -13,7 +14,7 @@ checkVersionIsSet() {
         echo "Error: VERSION not set"
         exit 1
     fi
-    return $true
+    return 1
 }
 
 getProjectSecret() {
