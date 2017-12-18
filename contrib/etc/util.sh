@@ -6,7 +6,6 @@ isDebug() {
         return 0
     fi
     return 1
-
 }
 
 checkVersionIsSet() {
@@ -14,7 +13,7 @@ checkVersionIsSet() {
         echo "Error: VERSION not set"
         exit 1
     fi
-    return 1
+    return $true
 }
 
 getProjectSecret() {
