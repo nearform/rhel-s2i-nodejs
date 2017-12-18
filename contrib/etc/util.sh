@@ -2,6 +2,7 @@
 
 CONFIG_PATH=.config/config.json
 
+set -x
 isDebug() {
     if [ ! -z "$DEBUG_BUILD" ]; then
         return 0
