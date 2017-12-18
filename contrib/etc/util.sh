@@ -1,8 +1,14 @@
 #!/bin/bash
 CONFIG_PATH=.config/config.json
 
+checkIsDebug() {
+    if [ -z "$DEBUG_BUILD" ]; then
+        return $true
+    fi
+    return $false
+}
+
 checkVersionIsSet() {
-    V=$(echo ${VERSION} | cut -d'.' -f1)
     if [ -z "$VERSION" ]; then
         echo "Error: VERSION not set"
         exit 1

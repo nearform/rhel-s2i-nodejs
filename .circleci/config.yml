@@ -24,6 +24,7 @@ jobs:
                 export V8_VERSION=$V8
                 export NPM_VERSION=$NPM
                 export IMAGE_TAG=$TAG
+                export DEBUG_BUILD=T
 
                 ./configure --version "$VERSION" \
                         --v8 "$V8" \
@@ -61,7 +62,7 @@ jobs:
           name: Publish to Red Hat
           command: |
             source contrib/etc/util.sh
-            if shouldPublish; then
+            if ! isDebug && shouldPublish; then
                 echo $(getProjectSecret) | docker login -u unused registry.rhc4tp.openshift.com:443 --password-stdin
                 export RH_PID=$(getProjectId)
                 make redhat_publish
