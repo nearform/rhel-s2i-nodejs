@@ -1,7 +1,7 @@
 #!/bin/bash
 CONFIG_PATH=.config/config.json
 
-checkIsDebug() {
+isDebug() {
     if [ -z "$DEBUG_BUILD" ]; then
         return $true
     fi
