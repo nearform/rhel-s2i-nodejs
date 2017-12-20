@@ -12,8 +12,8 @@ else
     cd /tmp/
     ./configure
     make -j -l8
-    # mkdir tools/remark-cli
-    make remark-preset-lint-node
+    mkdir tools/remark-cli
+    mkdir tools/remark-preset-lint-node
     make lint-md-build
     make -j4 test
     make install
