@@ -11,6 +11,7 @@ else
     tar -zxf /src/node-v${NODE_VERSION}.tar.gz -C /tmp/ --strip-components=1
     cd /tmp/
     ./configure
+    make remark-preset-lint-node
     make lint-md-clean lint-md-build
     make -j4 test
     make -j -l8
