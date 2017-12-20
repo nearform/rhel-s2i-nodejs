@@ -12,8 +12,8 @@ else
     cd /tmp/
     ./configure
     make -j -l8
-    # mkdir tools/remark-cli
-    # make lint-md-build
+    mkdir tools/remark-cli
+    make lint-md-build
     make -j4 test
     make install
 fi
