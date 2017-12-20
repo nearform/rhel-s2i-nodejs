@@ -11,10 +11,10 @@ else
     tar -zxf /src/node-v${NODE_VERSION}.tar.gz -C /tmp/ --strip-components=1
     cd /tmp/
     ./configure
-    mkdir tools/remark-cli
-    make lint-md-build
-    make -j4 test
     make -j -l8
+    # mkdir tools/remark-cli
+    # make lint-md-build
+    make -j4 test
     make install
 fi
 
